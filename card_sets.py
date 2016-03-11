@@ -1,4 +1,4 @@
-import pickle
+import json
 
 
 SETS = [
@@ -15,26 +15,34 @@ SETS = [
     ]
 
 
-def set_selection():
+def load_sets():
     """Loads the user's available sets, if saved. Otherwise, loads default."""
     global user_sets
     try:
-        user_sets = pickle.load(open("user_sets.p", "rb"))
+        user_sets = json.load(open("user_sets.txt"))
     except:
         user_sets = SETS
 
+def change_user_sets():
+    """Changes the user's list of available sets and saves them."""
+    new_sets = choose_sets("\nWhich sets do you have available?\n")
+    json.dump(new_sets, open("user_sets.txt", "w"))
+    return new_sets
 
-def available_sets():
-    """Determine's the user's available sets."""
-    print("\nWhich sets do you have available?\n")
-    for set in SETS:
+def choose_sets(
+    prompt="\nPlease choose your sets.\n",
+    origin_set_list=SETS
+    ):
+    """Prompts user to choose sets for use by other functions."""
+    print(prompt)
+    for set in origin_set_list:
         print(set[0], ":", set[1])
-    choice = input("\nChoose your set numbers, separated by commas.\n"
-                   "(Enter ALL if you have all sets.)\n>")
+    choice = input("\nChoose set numbers, separated by commas.\n"
+                   "(Enter ALL to choose all sets.)\n>")
     if choice.lower() == 'quit':
             exit()
     elif choice.lower() == 'all':
-            return SETS
+            return origin_set_list
     else:
         sets = []
         choicelist = choice.replace(' ', '').split(',')
@@ -53,16 +61,10 @@ def available_sets():
             if correct.lower() == 'quit':
                 exit()
             elif correct.lower() == 'n':
-                return available_sets()
+                return choose_sets()
             else:
+                sets.sort()
                 return sets
         else:
             print("I'm sorry, your list is empty.")
-            return available_sets()
-
-
-def change_user_sets():
-    """Changes the user's list of available sets and saves them."""
-    new_sets = available_sets()
-    pickle.dump(new_sets, open("user_sets.p", "wb"))
-    return new_sets
+            return choose_sets()
