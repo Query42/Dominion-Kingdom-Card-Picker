@@ -1,4 +1,4 @@
-import pickle
+import json
 
 
 SETS = [
@@ -19,7 +19,7 @@ def set_selection():
     """Loads the user's available sets, if saved. Otherwise, loads default."""
     global user_sets
     try:
-        user_sets = pickle.load(open("user_sets.p", "rb"))
+        user_sets = json.load(open("user_sets.txt"))
     except:
         user_sets = SETS
 
@@ -55,6 +55,7 @@ def available_sets():
             elif correct.lower() == 'n':
                 return available_sets()
             else:
+                sets.sort()
                 return sets
         else:
             print("I'm sorry, your list is empty.")
@@ -64,5 +65,5 @@ def available_sets():
 def change_user_sets():
     """Changes the user's list of available sets and saves them."""
     new_sets = available_sets()
-    pickle.dump(new_sets, open("user_sets.p", "wb"))
+    json.dump(new_sets, open("user_sets.txt", "w"))
     return new_sets
