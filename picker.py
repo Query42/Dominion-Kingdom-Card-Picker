@@ -1,10 +1,13 @@
+import os
+
+
 import card_sets
 import cards
 
 
-def mode_select():
+def select_mode():
     """Lets user choose a mode of set selection."""
-    clear
+    os.system('cls' if os.name == 'nt' else 'clear')
     while True:
         mode = input(
             "Which mode would you like to use?\n"
@@ -17,20 +20,21 @@ def mode_select():
         if mode.lower() == 'quit':
             exit()
         elif mode.lower() == 'all':
-            return all_sets
+            return card_sets.user_sets
         elif mode.lower() == 'choice':
             return card_sets.choose_sets(
                 "\nWhich sets would you like to use?\n",
-                user_sets
+                card_sets.user_sets
                 )
         elif mode.lower() == 'random':
-            return random_sets
+            return card_sets.random_sets(card_sets.user_sets)
         elif mode.lower() == 'change':
-            user_sets = change_user_sets()
+            card_sets.user_sets = card_sets.change_user_sets()
         else:
             print("That's not a valid choice.")
 
 def pick_cards():
+    """Chooses 10 random cards from user-determined sets."""
     pass
                 
 
@@ -44,8 +48,8 @@ def pick_cards():
 def run_now():
     print("Welcome to the Dominion Kingdom Card Selector.\n"
       "Type 'Quit' anytime to quit.")
-    card_sets.load_sets()
-    mode = mode_select()
+    mode = select_mode()
+    print(mode)
     
 
 if __name__ == '__main__':
