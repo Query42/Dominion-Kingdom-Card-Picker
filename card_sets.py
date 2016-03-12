@@ -56,7 +56,7 @@ def choose_sets(
             except:
                 print('{} is not a valid set number.'.format(item))
         if len(sets) > 0:
-            print_sets(choose_sets, sets, "You chose:")
+            return print_sets(choose_sets, sets, "You chose:")
         else:
             print("I'm sorry, your list is empty.")
             return choose_sets()

@@ -48,6 +48,7 @@ def pick_cards():
 def run_now():
     print("Welcome to the Dominion Kingdom Card Selector.\n"
       "Type 'Quit' anytime to quit.")
+    card_sets.load_sets()
     mode = select_mode()
     print(mode)
     
