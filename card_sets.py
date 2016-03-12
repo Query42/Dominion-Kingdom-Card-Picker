@@ -1,5 +1,5 @@
 import json
-
+import random
 
 SETS = [
     (0, 'Dominion'),
@@ -23,20 +23,22 @@ def load_sets():
     except:
         user_sets = SETS
 
+load_sets()
+
 def change_user_sets():
     """Changes the user's list of available sets and saves them."""
-    new_sets = choose_sets("\nWhich sets do you have available?\n")
+    new_sets = choose_sets("\nWhich sets do you have available?\n", SETS)
     json.dump(new_sets, open("user_sets.txt", "w"))
     return new_sets
 
 def choose_sets(
     prompt="\nPlease choose your sets.\n",
-    origin_set_list=SETS
+    origin_set_list=user_sets
     ):
     """Prompts user to choose sets for use by other functions."""
     print(prompt)
-    for set in origin_set_list:
-        print(set[0], ":", set[1])
+    for item in origin_set_list:
+        print(item[0], ":", item[1])
     choice = input("\nChoose set numbers, separated by commas.\n"
                    "(Enter ALL to choose all sets.)\n>")
     if choice.lower() == 'quit':
@@ -54,17 +56,34 @@ def choose_sets(
             except:
                 print('{} is not a valid set number.'.format(item))
         if len(sets) > 0:
-            print('You chose:')
-            for item in sets:
-                print(item[1])
-            correct = input("Is this correct? Y/n\n>")
-            if correct.lower() == 'quit':
-                exit()
-            elif correct.lower() == 'n':
-                return choose_sets()
-            else:
-                sets.sort()
-                return sets
+            return print_sets(choose_sets, sets, "You chose:")
         else:
             print("I'm sorry, your list is empty.")
             return choose_sets()
+
+
+def random_sets(origin_set_list=user_sets):
+    """Chooses random sets from those available"""
+    sets = []
+    for item in origin_set_list:
+        if random.randint(0, 1):
+            sets.append(item)
+
+    if len(sets) == 0:
+        return random_sets(origin_set_list)
+    else:
+        return print_sets(random_sets, sets, "Your random sets:")
+
+def print_sets(parent_func, sets, message):
+    """Displays sets selected through other functions"""
+    print(message)
+    for item in sets:
+        print(item[1])
+    correct = input("Use these sets? Y/n\n>")
+    if correct.lower() == 'quit':
+        exit()
+    elif correct.lower() == 'n':
+        return parent_func()
+    else:
+        sets.sort()
+        return sets    
