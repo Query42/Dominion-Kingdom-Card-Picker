@@ -23,8 +23,8 @@ def select_mode():
             return card_sets.user_sets
         elif mode.lower() == 'choice':
             return card_sets.choose_sets(
-                "\nWhich sets would you like to use?\n",
-                card_sets.user_sets
+                card_sets.user_sets,
+                "\nWhich sets would you like to use?\n"
                 )
         elif mode.lower() == 'random':
             return card_sets.random_sets(card_sets.user_sets)

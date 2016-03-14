@@ -32,8 +32,8 @@ def change_user_sets():
     return new_sets
 
 def choose_sets(
-    prompt="\nPlease choose your sets.\n",
-    origin_set_list=user_sets
+    origin_set_list=user_sets,
+    prompt="\nPlease choose your sets.\n"
     ):
     """Prompts user to choose sets for use by other functions."""
     print(prompt)
@@ -56,7 +56,13 @@ def choose_sets(
             except:
                 print('{} is not a valid set number.'.format(item))
         if len(sets) > 0:
-            return print_sets(choose_sets, sets, "You chose:")
+            return print_sets(
+                choose_sets,
+                sets,
+                "You chose:",
+                origin_set_list,
+                prompt
+                )
         else:
             print("I'm sorry, your list is empty.")
             return choose_sets()
@@ -72,9 +78,14 @@ def random_sets(origin_set_list=user_sets):
     if len(sets) == 0:
         return random_sets(origin_set_list)
     else:
-        return print_sets(random_sets, sets, "Your random sets:")
+        return print_sets(
+            random_sets,
+            sets,
+            "Your random sets:",
+            origin_set_list
+            )
 
-def print_sets(parent_func, sets, message):
+def print_sets(parent_func, sets, message, *args):
     """Displays sets selected through other functions"""
     print(message)
     for item in sets:
@@ -83,7 +94,7 @@ def print_sets(parent_func, sets, message):
     if correct.lower() == 'quit':
         exit()
     elif correct.lower() == 'n':
-        return parent_func()
+        return parent_func(*args)
     else:
         sets.sort()
         return sets    
