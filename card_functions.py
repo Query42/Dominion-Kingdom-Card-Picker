@@ -2,7 +2,6 @@ from peewee import *
 
 db = SqliteDatabase('cards.db')
 
-
 class Card(Model):      #Database table parameters for cards
     name = CharField(unique=True)
     cost = IntegerField()
@@ -13,6 +12,9 @@ class Card(Model):      #Database table parameters for cards
 
     class Meta:
         database = db
+
+db.connect()            #Establishes connection with database, loads Card table
+db.create_tables([Card], safe=True)
 
 
 def multiline(message):
@@ -29,8 +31,6 @@ def multiline(message):
 def create_card(card_set=None): #Entering a set argument makes all created cards
                                 #part of that set.
     """Creates a new card in the database."""
-    db.connect()
-    db.create_tables([Card], safe=True)
     cards = 0
     if not card_set:
         card_set = input("Set? > ") #Prompts user for card's set if no argument
@@ -57,8 +57,6 @@ def create_card(card_set=None): #Entering a set argument makes all created cards
 
 def select_card(card_name):
     """Selects a card from the database by name"""
-    db.connect()
-    db.create_tables([Card], safe=True)
     return Card.select().where(Card.name == card_name).get()
 
 
