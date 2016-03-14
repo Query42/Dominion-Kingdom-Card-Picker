@@ -46,6 +46,8 @@ def run_now():
       "Type 'Quit' anytime to quit.")
     card_sets.load_sets()
     mode = mode_select()
+    for set_name in mode:
+        compile_set_list(set_name)
     
 
 if __name__ == '__main__':
