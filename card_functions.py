@@ -3,7 +3,7 @@ from peewee import *
 db = SqliteDatabase('cards.db')
 
 
-class Card(Model):
+class Card(Model):      #Database table parameters for cards
     name = CharField(unique=True)
     cost = IntegerField()
     set_name = CharField()
@@ -26,16 +26,17 @@ def multiline(message):
     return '\n'.join(user_input)
 
 
-def create_card(card_set=None):
+def create_card(card_set=None): #Entering a set argument makes all created cards
+                                #part of that set.
     """Creates a new card in the database."""
     db.connect()
     db.create_tables([Card], safe=True)
     cards = 0
     if not card_set:
-        card_set = input("Set? > ")
+        card_set = input("Set? > ") #Prompts user for card's set if no argument
     while True:
         try:
-            Card.create(
+            Card.create(    #Creates card with user-input parameters
                 name = input("Name? > ").capitalize(),
                 cost = int(input("Cost? > ")),
                 set_name = card_set,
@@ -43,15 +44,15 @@ def create_card(card_set=None):
                 types = input("Types? > ")
                 )
             cards += 1
-        except IntegrityError:
+        except IntegrityError:  #Triggers when name exclusivity not met
             print('Card name already in use.')
-        except TypeError:
+        except TypeError:       #Triggers if non-number entered for Cost.
             print('Invalid number entered.')
 
         repeat = input('Create another card? Y/n > ')
         if repeat.lower() == 'n':
             break
-    print(cards, ' cards created.')
+    print(cards, ' cards created.') #Tells user how many cards were created
 
 
 def select_card(card_name):
@@ -88,12 +89,12 @@ def edit_card(card_name):
           "Choices are Name, Cost, Set, Text, Type, or Flags.")
     choice = input("> ")
 
-    if choice.lower() == 'quit':
+    if choice.lower() == 'quit':    #Quits python
         exit()
-    elif choice.lower() == 'name':
+    elif choice.lower() == 'name':  #Changes card's name
         card.name = (input("What would you like to change it to?\n> ")
                      .capitalize())
-    elif choice.lower() == 'cost':
+    elif choice.lower() == 'cost':  #Changes card's cost
         change = input("What would you like to change it to?\n> ")
         try:
             change = int(change)
@@ -101,15 +102,15 @@ def edit_card(card_name):
         except:
             print("That's not a valid number.")
             exit()
-    elif choice.lower() == 'set':
+    elif choice.lower() == 'set':   #Changes card's set
         card.set_name = input("What would you like to change it to?\n> ")
-    elif choice.lower() == 'text':
+    elif choice.lower() == 'text':  #Changes card text
         card.card_text = multiline("What would you like to change it to?")
-    elif choice.lower() == 'type':
+    elif choice.lower() == 'type':  #Changes card's type(s)
         card.types = input("What would you like to change it to?\n> ")
-    elif choice.lower() == 'flags':
+    elif choice.lower() == 'flags': #Adds/changes card's flags
         card.flags = input("What would you like to change it to?\n> ")
     
-    card.save()
-    print("{}'s {} value has been changed.".format(
+    card.save()                     #Saves changes to database
+    print("{}'s {} value has been changed.".format( #Tells user change worked
         card.name, choice.capitalize()))
