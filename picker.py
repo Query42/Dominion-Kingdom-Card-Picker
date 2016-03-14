@@ -1,6 +1,21 @@
-import card_sets
-import cards
+from peewee import *
 
+import card_sets
+import card_functions
+
+
+db = SqliteDatabase('cards.db')
+
+class Card(Model):
+    name = CharField(unique=True)
+    cost = IntegerField()
+    set_name = CharField()
+    card_text = TextField()
+    types = CharField()
+    flags = CharField(null=True)
+
+    class Meta:
+        database = db
 
 def mode_select():
     """Lets user choose a mode of set selection."""
@@ -30,6 +45,10 @@ def mode_select():
         else:
             print("That's not a valid choice.")
 
+def compile_set_list(set_name):
+    set_cards = Card.select().where(Card.set_name == set_name)
+    available_cards.extend(list(set_cards))
+
 def pick_cards():
     pass
                 
@@ -46,6 +65,10 @@ def run_now():
       "Type 'Quit' anytime to quit.")
     card_sets.load_sets()
     mode = mode_select()
+    available_cards = []
+    db.connect()
+    db.create_tables([Card], safe=True)
+    
     for set_name in mode:
         compile_set_list(set_name)
     
