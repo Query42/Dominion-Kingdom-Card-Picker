@@ -77,6 +77,7 @@ def run_now():
     card_catalog = build_card_list(set_list)    #Builds list of all cards in sets
     cards = pick_cards(card_catalog)            #Picks 10 cards from card list
     print(cards)
+    input("Press ENTER to exit.")
     return
 
 if __name__ == '__main__':
