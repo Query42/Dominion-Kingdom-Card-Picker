@@ -4,7 +4,7 @@ db = SqliteDatabase('cards.db')
 
 class Card(Model):      #Database table parameters for cards
     name = CharField(unique=True)
-    cost = IntegerField()
+    cost = CharField()
     set_name = CharField()
     card_text = TextField()
     types = CharField()
