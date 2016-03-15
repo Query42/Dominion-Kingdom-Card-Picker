@@ -11,4 +11,7 @@ from. Eventually, the picker will be able to perform more tasks for the user, su
 Young Witch, determine whether Colonies and Platinums from Prosperity will be used, etc. It will also be able to describe cards
 that are not in the Kingdom Card deck, such as individual Knights and Ruins, and the Travelers from Adventures.
 
-This project is still in early development, and does not yet have the basic functionality of selecting 10 Kingdom Cards.
+As of 3/15/16, basic functionality is complete. Users may specify which sets they have available, choose or randomly determine
+sets to use from their collection, and have 10 cards randomly selected from those sets. Run picker.py to try the program!
+
+Enjoy!
