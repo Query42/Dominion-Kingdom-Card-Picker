@@ -38,7 +38,7 @@ def build_card_list(set_list):
         set_cards = card_functions.retrieve_set_cards(set_name)
             #Grabs cards from named set
         for card in set_cards:         #Adds cards to total list
-            card_list.append(card.name)
+            card_list.append(card)
     return card_list
 
 def pick_cards(card_catalog):
@@ -57,6 +57,13 @@ def list_tuple_seconds(tuple_list):
         new_list.append(item[1])
     return new_list
 
+def grab_names(cards):
+    """Takes a list of Card query objects and converts into their card names."""
+    card_names = []
+    for item in range(len(cards)):
+        card_names.append(cards[item].name)
+    return card_names
+
 def run_now():
     os.system('cls' if os.name == 'nt' else 'clear') #Clears terminal
     print("Welcome to the Dominion Kingdom Card Selector.\n"
@@ -65,7 +72,9 @@ def run_now():
     set_list = list_tuple_seconds(set_tuples)   #Turns set_list into names list
     card_catalog = build_card_list(set_list)    #Builds list of all cards in sets
     cards = pick_cards(card_catalog)            #Picks 10 cards from card list
-    print(cards)
+    card_names = grab_names(cards)              #Turns 10 cards into names
+    card_names.sort()                           #Sorts cards alphabetically
+    print(card_names)
     input("Press ENTER to exit.")
     return
 
