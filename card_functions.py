@@ -115,5 +115,5 @@ def edit_card(card_name):
 
 def retrieve_set_cards(set_name):
     """Creates list of query objects of cards from specified set."""
-    set_cards = Card.select().where(Card.set_name == set_name.capitalize())
+    set_cards = Card.select().where(Card.set_name == set_name)
     return list(set_cards)

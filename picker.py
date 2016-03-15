@@ -1,12 +1,12 @@
 import os
+import random
 
 import card_sets
 import card_functions
 
 
-def select_mode():
-    """Lets user choose a mode of set selection."""
-    os.system('cls' if os.name == 'nt' else 'clear') #Clears terminal
+def select_sets():
+    """Lets user choose a mode of set selection and determine sets."""
     while True:
         mode = input(   #Lets user select mode of set selection or change sets
             "Which mode would you like to use?\n"
@@ -35,9 +35,30 @@ def select_mode():
 
     #available_cards.extend(list(set_cards)) use this in another func
 
-def pick_cards():
+def build_card_list(set_list):
+    card_list = []
+    for set_name in set_list:
+        set_cards = card_functions.retrieve_set_cards(set_name)
+            #Grabs cards from named set
+        for card in set_cards:         #Adds cards to total list
+            card_list.append(card.name)
+    return card_list
+
+def pick_cards(card_catalog):
     """Chooses 10 random cards from user-determined sets."""
-    pass
+    working_list = card_catalog
+    cards = []
+    for item in range(10):
+        cards.append(working_list.pop(random.randint(0, (len(working_list)-1))))
+        #Pulls single random item from working_list and adds to cards list
+    return cards
+    
+def list_tuple_seconds(tuple_list):
+    """Takes list of tuples. Makes new list of second item in each tuple."""
+    new_list = []
+    for item in tuple_list:
+        new_list.append(item[1])
+    return new_list
                 
 
 #randomly select 10 cards from selected sets, add them to kingdom
@@ -48,17 +69,15 @@ def pick_cards():
 #or generate an entirely new set
 
 def run_now():
+    os.system('cls' if os.name == 'nt' else 'clear') #Clears terminal
     print("Welcome to the Dominion Kingdom Card Selector.\n"
-      "Type 'Quit' anytime to quit.")
-    card_sets.load_sets()
-    mode = select_mode()
-    available_cards = []
-    db.connect()
-    db.create_tables([Card], safe=True)
-    
-    for set_name in mode:
-        card_functions.retrieve_set_cards(set_name)
-    
+      "Type 'Quit' anytime to quit.\n")
+    set_tuples = select_sets()                  #Gathers list of sets to use
+    set_list = list_tuple_seconds(set_tuples)   #Turns set_list into names list
+    card_catalog = build_card_list(set_list)    #Builds list of all cards in sets
+    cards = pick_cards(card_catalog)            #Picks 10 cards from card list
+    print(cards)
+    return
 
 if __name__ == '__main__':
     run_now()
