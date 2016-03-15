@@ -1,4 +1,5 @@
 from peewee import *
+import os
 
 import card_sets
 import card_functions
@@ -17,9 +18,9 @@ class Card(Model):
     class Meta:
         database = db
 
-def mode_select():
+def select_mode():
     """Lets user choose a mode of set selection."""
-    clear
+    os.system('cls' if os.name == 'nt' else 'clear')
     while True:
         mode = input(
             "Which mode would you like to use?\n"
@@ -32,16 +33,16 @@ def mode_select():
         if mode.lower() == 'quit':
             exit()
         elif mode.lower() == 'all':
-            return all_sets
+            return card_sets.user_sets
         elif mode.lower() == 'choice':
             return card_sets.choose_sets(
                 "\nWhich sets would you like to use?\n",
-                user_sets
+                card_sets.user_sets
                 )
         elif mode.lower() == 'random':
-            return random_sets
+            return card_sets.random_sets(card_sets.user_sets)
         elif mode.lower() == 'change':
-            user_sets = change_user_sets()
+            card_sets.user_sets = card_sets.change_user_sets()
         else:
             print("That's not a valid choice.")
 
@@ -50,6 +51,7 @@ def compile_set_list(set_name):
     available_cards.extend(list(set_cards))
 
 def pick_cards():
+    """Chooses 10 random cards from user-determined sets."""
     pass
                 
 
@@ -64,7 +66,7 @@ def run_now():
     print("Welcome to the Dominion Kingdom Card Selector.\n"
       "Type 'Quit' anytime to quit.")
     card_sets.load_sets()
-    mode = mode_select()
+    mode = select_mode()
     available_cards = []
     db.connect()
     db.create_tables([Card], safe=True)
