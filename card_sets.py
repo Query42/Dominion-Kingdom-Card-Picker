@@ -27,8 +27,8 @@ load_sets()     #Loads user sets when module is imported
 
 def change_user_sets():
     """Changes the user's list of available sets and saves them."""
-    new_sets = choose_sets("\nWhich sets do you have available?\n", SETS)
-    json.dump(new_sets, open("user_sets.txt", "w"))d
+    new_sets = choose_sets(SETS, "\nWhich sets do you have available?\n")
+    json.dump(new_sets, open("user_sets.txt", "w"))
     return new_sets
 
 def choose_sets(
