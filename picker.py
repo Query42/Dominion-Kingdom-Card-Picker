@@ -32,9 +32,6 @@ def select_sets():
         else:
             print("That's not a valid choice.") #Retries on non-valid input
 
-
-    #available_cards.extend(list(set_cards)) use this in another func
-
 def build_card_list(set_list):
     card_list = []
     for set_name in set_list:
@@ -59,14 +56,6 @@ def list_tuple_seconds(tuple_list):
     for item in tuple_list:
         new_list.append(item[1])
     return new_list
-                
-
-#randomly select 10 cards from selected sets, add them to kingdom
-
-#inform user of the current kingdom set
-
-#give user option to examine specific cards, veto certain cards,
-#or generate an entirely new set
 
 def run_now():
     os.system('cls' if os.name == 'nt' else 'clear') #Clears terminal
