@@ -33,21 +33,33 @@ def select_sets():
             print("That's not a valid choice.") #Retries on non-valid input
 
 def build_card_list(set_list):
+    """Compiles a list of all cards in all specified sets."""
     card_list = []
     for set_name in set_list:
         set_cards = card_functions.retrieve_set_cards(set_name)
             #Grabs cards from named set
         for card in set_cards:         #Adds cards to total list
-            card_list.append(card.name)
+            card_list.append(card)
     return card_list
 
 def pick_cards(card_catalog):
     """Chooses 10 random cards from user-determined sets."""
     working_list = card_catalog
     cards = []
-    for item in range(10):
-        cards.append(working_list.pop(random.randint(0, (len(working_list)-1))))
-        #Pulls single random item from working_list and adds to cards list
+    count = 0
+    event_count = 0
+
+    while count <10:
+        count +=1
+        card = (working_list.pop(random.randint(0, (len(working_list)-1))))
+        #Removes random card from list and sets it to this variable
+        if card.types == "Event":
+            count -= 1              #Does not count Events in 10 count
+            if event_count == 3:    #Allows up to 3 Events to be added
+                continue
+            event_count +=1
+        cards.append(card) #Adds card to cards list
+
     return cards
     
 def list_tuple_seconds(tuple_list):
@@ -65,7 +77,9 @@ def run_now():
     set_list = list_tuple_seconds(set_tuples)   #Turns set_list into names list
     card_catalog = build_card_list(set_list)    #Builds list of all cards in sets
     cards = pick_cards(card_catalog)            #Picks 10 cards from card list
-    print(cards)
+    for card in cards:
+        print("{} ({})".format(card.name, card.set_name))
+    print("{} cards selected.".format(len(cards)))
     input("Press ENTER to exit.")
     return
 
