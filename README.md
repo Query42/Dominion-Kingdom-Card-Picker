@@ -12,6 +12,7 @@ Young Witch, determine whether Colonies and Platinums from Prosperity will be us
 that are not in the Kingdom Card deck, such as individual Knights and Ruins, and the Travelers from Adventures.
 
 As of 3/15/16, basic functionality is complete. Users may specify which sets they have available, choose or randomly determine
-sets to use from their collection, and have 10 cards randomly selected from those sets. Run picker.py to try the program!
+sets to use from their collection, and have 10 cards randomly selected from those sets. Requires python 3 and peewee. Run
+picker.py to try the program!
 
 Enjoy!
