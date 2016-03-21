@@ -1,1 +1,1 @@
-[[0, "Dominion"], [1, "Intrigue"], [2, "Seaside"], [4, "Prosperity"], [6, "Hinterlands"], [8, "Guilds"], [9, "Adventures"]]
+[[0, "Dominion"], [1, "Intrigue"], [2, "Seaside"], [3, "Alchemy"], [4, "Prosperity"], [5, "Cornucopia"], [6, "Hinterlands"], [7, "Dark Ages"], [8, "Guilds"], [9, "Adventures"]]

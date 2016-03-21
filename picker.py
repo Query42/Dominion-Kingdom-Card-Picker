@@ -53,14 +53,29 @@ def pick_cards(card_catalog):
         count +=1
         card = (working_list.pop(random.randint(0, (len(working_list)-1))))
         #Removes random card from list and sets it to this variable
+        if card.name == "Young witch":
+            add_bane(working_list)
         if card.types == "Event":
             count -= 1              #Does not count Events in 10 count
             if event_count == 3:    #Allows up to 3 Events to be added
                 continue
             event_count +=1
-        cards.append(card) #Adds card to cards list
+        cards.append(card)
 
     return cards
+
+def add_bane(source_list):
+    """Adds additional Bane card for Young Witch"""
+    bane = (source_list.pop(random.randint(0, (len(source_list)-1))))
+    try:
+        if int(bane.cost) in [2, 3]:    #Ensures cost of 2 or 3 and no potions
+            print("Young Witch's Bane: {}".format(bane.name))
+            return bane
+    except:
+        pass
+    source_list.append(bane)
+    return add_bane(source_list)
+    
     
 def list_tuple_seconds(tuple_list):
     """Takes list of tuples. Makes new list of second item in each tuple."""
