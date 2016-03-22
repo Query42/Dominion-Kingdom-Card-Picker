@@ -17,12 +17,12 @@ db.connect()            #Establishes connection with database, loads Card table
 db.create_tables([Card], safe=True)
 
 
-def multiline(message):
+def multiline(message="Enter your text."):
     """Takes multiline user input for use in card text."""
     user_input = []
     print(message)
-    entry = input("(Type 'done' when done.)\n> ")
-    while entry != "done":
+    entry = input("(Enter DONE when finished.)\n> ")
+    while entry.lower() != "done":
         user_input.append(entry)
         entry = input("> ")
     return '\n'.join(user_input)
@@ -62,7 +62,11 @@ def select_card(card_name):
 
 def examine_card(card_name):
     """Gives the details of the named card."""
-    card = select_card(card_name.capitalize())
+    try:
+        card = select_card(card_name.capitalize())
+    except:
+        return print("No such card.")
+    
     return print('''
 Name: {}
 Cost: {}
